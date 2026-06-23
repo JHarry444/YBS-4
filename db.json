@@ -1,0 +1,16 @@
+{
+    "trainers": [
+        {
+            "id": "abcd",
+            "name": "jH",
+            "age": 32,
+            "specialism": "Java"
+        },
+        {
+            "id": "efgh",
+            "name": "cg",
+            "age": 33,
+            "specialism": "Web Development"
+        }
+    ]
+}
