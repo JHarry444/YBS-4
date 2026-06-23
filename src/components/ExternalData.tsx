@@ -3,7 +3,10 @@ import type { TrainerType } from "../types/trainers";
 import Trainer from "./Trainer";
 
 function ExternalData() {
-    const [trainers, setTrainers] = useState<TrainerType[]>([]);
+    const defaultTrainers: TrainerType[] = sessionStorage.getItem("trainers") ? JSON.parse(sessionStorage.getItem("trainers")!) : [];
+
+
+    const [trainers, setTrainers] = useState<TrainerType[]>(defaultTrainers);
 
 
     useEffect(() => {
@@ -13,6 +16,7 @@ function ExternalData() {
                 const res = await fetch("http://localhost:8080/trainers")
                 const data = await res.json();
                 console.log("DATA:", data);
+                sessionStorage.setItem("trainers", JSON.stringify(data));
                 setTrainers(data);
             } catch (error) {
                 console.error("Error fetching data:", error);
