@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLoaderData, useNavigate, useParams } from "react-router";
-import Trainer from "./Trainer";
+import Trainer from "../Trainer";
 
 function SpecificTrainer() {
 
@@ -30,14 +30,9 @@ function SpecificTrainer() {
     //     fetchTrainer();
     // }, [params.id]);
 
-
-    const trainer = useLoaderData();
-
-    console.log("DATA:", trainer);
-
-
     const navigate = useNavigate();
 
+    const trainer = useLoaderData();
     return (
         <>
             <h1>Loading a specific trainer using path parameters</h1>

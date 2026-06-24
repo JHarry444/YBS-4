@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { TrainerType } from "../types/trainers";
-import Trainer from "./Trainer";
+import type { TrainerType } from "../../types/trainers";
+import Trainer from "../Trainer";
 
 function ExternalData() {
     const defaultTrainers: TrainerType[] = sessionStorage.getItem("trainers") ? JSON.parse(sessionStorage.getItem("trainers")!) : [];

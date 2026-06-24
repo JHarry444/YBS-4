@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
-import type { TrainerType } from "../types/trainers";
-import Trainer from "./Trainer";
+import type { TrainerType } from "../../types/trainers";
+import Trainer from "../Trainer";
 
 function FilteredTrainer() {
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     console.log("Search Params:", searchParams.toString());
 
