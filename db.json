@@ -1,17 +1,66 @@
 {
-    "trainers": [
-        {
-            "id": "abcd",
-            "name": "jh",
-            "age": 32,
-            "specialism": "Java"
-        },
-        {
-            "id": "efgh",
-            "name": "cg",
-            "age": 33,
-            "specialism": "Web Development"
-        }
-    ],
-    "users": []
+  "trainers": [
+    {
+      "id": "abcd",
+      "name": "jh",
+      "age": 32,
+      "specialism": "Java"
+    },
+    {
+      "id": "efgh",
+      "name": "cg",
+      "age": 33,
+      "specialism": "Web Development"
+    },
+    {
+      "name": "ms",
+      "age": 45,
+      "specialism": "oracle",
+      "id": "rGuSp7NHGFc"
+    },
+    {
+      "name": "jh",
+      "age": 32,
+      "specialism": "java",
+      "id": "Z3GoxNLeKng"
+    },
+    {
+      "name": "jb",
+      "age": 28,
+      "specialism": "servicenow",
+      "id": "oPIt3MPCetY"
+    },
+    {
+      "name": "Jordan",
+      "age": 32,
+      "specialism": "Java",
+      "id": "Y2JCNSkaJbY"
+    },
+    {
+      "name": "Barry",
+      "age": 22,
+      "specialism": "Building",
+      "id": "Byv4los7Tf0"
+    },
+    {
+      "name": "sfd",
+      "age": 0,
+      "specialism": "df",
+      "id": "yYFFOBKcKYw"
+    },
+    {
+      "name": "sfd",
+      "age": 34,
+      "specialism": "fgfg",
+      "id": "QfThEXwwitk"
+    },
+    {
+      "name": "jh",
+      "age": 32,
+      "specialism": "java",
+      "id": "xQ12tdfSBew"
+    }
+  ],
+  "users": [],
+  "$schema": "./node_modules/json-server/schema.json"
 }

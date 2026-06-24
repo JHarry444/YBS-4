@@ -1,14 +1,27 @@
-import { useState } from "react";
+import { useReducer } from "react";
+import { counterReducer } from "../../reducers";
+
+
 
 function Counter() {
-    const [count, setCount] = useState(0);
+
+    const [state, dispatch] = useReducer(counterReducer, {
+        count: 0,
+        step: 11
+    });
 
     return (
         <>
             <h1>Counter</h1>
-            <button onClick={() => setCount(count + 1)}>+</button>
-            <span>{count}</span>
-            <button onClick={() => setCount(count - 1)}>-</button>
+            <div>
+                <span>{state.count}</span>
+                <br />
+                <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+                <input type="number" name="step" value={state.step}
+                    onChange={(e) => dispatch({ type: "setStep", payload: Number(e.target.value) })} />
+                <button onClick={() => dispatch({ type: "increment" })}>+</button>
+            </div>
+
         </>
     );
 }
