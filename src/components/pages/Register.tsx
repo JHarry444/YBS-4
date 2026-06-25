@@ -1,11 +1,11 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router";
-import AuthContext from "../../context/auth";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/Auth";
 
 function Register() {
     const navigate = useNavigate();
 
-    const auth = useContext(AuthContext);
+    const dispatch = useDispatch();
 
     async function submitHandler(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -24,7 +24,8 @@ function Register() {
             });
 
             console.log("Registering user:", { username, password, role });
-            auth?.login(username, role);
+            // auth?.login(username, role);
+            dispatch(login({ name: username, role }));
 
             navigate("/"); // Redirect to home page after registration
         } catch (error) {

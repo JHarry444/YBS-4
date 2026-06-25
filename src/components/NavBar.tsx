@@ -1,10 +1,9 @@
-import { useContext } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router";
-import AuthContext from "../context/auth";
 
 function NavBar() {
-    const { role } = useContext(AuthContext);
-
+    // const { role } = useContext(AuthContext);
+    const role = useSelector((state) => state.auth.role);
     return (
         <nav className="navbar">
             <Link to="/">Home</Link>
