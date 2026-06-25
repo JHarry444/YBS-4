@@ -1,17 +1,17 @@
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import type { TrainerType } from "../../../types/trainers";
 import { useFormStatus } from "react-dom";
 import Submit from "../../Submit";
 
-const TrainerForm = ({ addTrainer }: { addTrainer: (newTrainer: TrainerType) => void }) => {
+const TrainerForm = memo(({ addTrainer }: { addTrainer: (newTrainer: TrainerType) => void }) => {
     const [trainer, setTrainer] = useState<TrainerType>({
         name: "",
         age: 0,
         specialism: ""
     });
 
-    async function formAction() {
-        // event.preventDefault();
+    async function formAction(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
         console.log("Trainer Data:", trainer);
 
         addTrainer(trainer);
@@ -37,7 +37,7 @@ const TrainerForm = ({ addTrainer }: { addTrainer: (newTrainer: TrainerType) => 
     const ageRef = useRef<HTMLInputElement>(null);
     return (
         <div>
-            <form action={formAction}>
+            <form onSubmit={formAction}>
 
                 <fieldset>
                     <label>Name:</label>
@@ -53,6 +53,6 @@ const TrainerForm = ({ addTrainer }: { addTrainer: (newTrainer: TrainerType) => 
             <p>{new Date().toLocaleString()}</p>
         </div>
     );
-}
+});
 
 export default TrainerForm;
