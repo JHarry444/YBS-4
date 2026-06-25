@@ -6,11 +6,44 @@ import TrainerForm from "./external/TrainerForm";
 function ExternalData() {
     const defaultTrainers: TrainerType[] = sessionStorage.getItem("trainers") ? JSON.parse(sessionStorage.getItem("trainers")!) : [];
 
+    const [trainers, dispatchAction] = useActionState<TrainerType[]>(trainersAction, defaultTrainers);
+    const [optimisticTrainers, setOptimisticTrainers] = useOptimistic<TrainerType[]>(trainers);
 
-    const [trainers, setTrainers] = useState<TrainerType[]>(defaultTrainers);
 
 
+    async function trainersAction(previousTrainers: TrainerType[], actionPayload) {
+        switch (actionPayload.type) {
+            case "INIT": {
+                return actionPayload.payload.trainers;
+            }
+            case "ADD": {
+                debugger;
+                const { newTrainer } = actionPayload.payload;
+                setOptimisticTrainers([...previousTrainers, newTrainer]);
+                try {
+                    await new Promise(resolve => setTimeout(resolve, 2_000)); // Simulate a delay for demonstration purposes
+                    const res = await fetch("http://localhost:8080/trainers", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(newTrainer)
+                    });
+                    const data = await res.json();
+                    console.log("Response Data:", data);
+                    return [...previousTrainers, data];
 
+                } catch (error) {
+                    console.error("Error submitting trainer data:", error);
+                }
+            }
+                // case "REMOVE": {
+                //     // return
+                // }
+
+                return previousTrainers;
+        }
+    }
 
     useEffect(() => {
         async function fetchData() {
@@ -20,39 +53,19 @@ function ExternalData() {
                 const data = await res.json();
                 console.log("DATA:", data);
                 sessionStorage.setItem("trainers", JSON.stringify(data));
-
-                setTrainers(data);
+                startTransition(() => {
+                    dispatchAction({ type: "INIT", payload: { trainers: data } });
+                });
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         }
 
         fetchData();
-        const trainerInterval = setInterval(() => {
-            fetchData();
-        }, 5000);
-
-        return () => clearInterval(trainerInterval);
-    }, []);
+    }, [dispatchAction]);
 
     const addTrainer = async (newTrainer: TrainerType) => {
-        try {
-            await new Promise(resolve => setTimeout(resolve, 2_000)); // Simulate a delay for demonstration purposes
-            const res = await fetch("http://localhost:8080/trainers", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(newTrainer)
-            });
-            const data = await res.json();
-            console.log("Response Data:", data);
-            setTrainers((prevTrainers) => [...prevTrainers, data]);
 
-
-        } catch (error) {
-            console.error("Error submitting trainer data:", error);
-        }
     }
 
     const [filter, setFilter] = useState("");
@@ -70,8 +83,8 @@ function ExternalData() {
                 onChange={(e) => setFilter(e.target.value)}
             />
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem", marginTop: "1rem" }}>
-                <TrainerForm addTrainer={addTrainer} />
-                <RenderTrainers trainers={trainers.filter(trainer => trainer.name.toLowerCase().startsWith(filter.toLowerCase()))} />
+                <TrainerForm addTrainer={(newTrainer) => dispatchAction({ type: "ADD", payload: { newTrainer } })} />
+                <RenderTrainers trainers={optimisticTrainers.filter(trainer => trainer.name.toLowerCase().startsWith(filter.toLowerCase()))} />
             </div>
         </>
     );
